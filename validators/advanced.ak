@@ -1,4 +1,4 @@
-use custom/types.{NamedFields}
+use custom_types.{NamedFields}
 
 /// Nested patterns: https://aiken-lang.org/language-tour/custom-types#nested-patterns
 test nested_patterns() {

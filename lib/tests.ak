@@ -1,9 +1,10 @@
 use aiken/cbor
 use cardano/address.{Script, VerificationKey}
-use custom/types.{
+use custom_types.{
   Backer, Datum, Fieldless, NamedFields, NamelessFields, North, Single,
   SingleConstructor, South, Unit,
 }
+use opaque_types.{Class} as obj
 
 // ## Single Constructor
 
@@ -144,4 +145,26 @@ test destructuring() {
   let Backer { amount: backer_2_amount, .. } = backer_2
 
   backer_2_amount > backer_1_amount
+}
+
+// ## Opaque Types
+
+test opaque_types() {
+  let o: Class = obj.new(1, "Hello", True)
+
+  let o_1 = obj.set_i(o, 2)
+  let o_2 = obj.set_a(o, "World")
+  let o_3 = obj.set_y(o, False)
+
+  and {
+    obj.get_i(o_1) == obj.get_i(o) + 1,
+    and {
+      obj.get_a(o) == "Hello",
+      obj.get_a(o_2) == "World",
+    },
+    and {
+      !obj.get_y(o_3),
+      obj.get_y(o),
+    },
+  }
 }
