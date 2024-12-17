@@ -152,18 +152,18 @@ test destructuring() {
 test opaque_types() {
   let o: Class = obj.new(1, "Hello", True)
 
-  let o_1 = obj.set_i(o, 2)
-  let o_2 = obj.set_a(o, "World")
-  let o_3 = obj.set_y(o, False)
+  let o1 = obj.set_i(o, 2)
+  let o2 = obj.set_a(o, "World")
+  let o3 = obj.set_y(o, False)
 
   and {
-    obj.get_i(o_1) == obj.get_i(o) + 1,
+    obj.get_i(o1) == obj.get_i(o) + 1,
     and {
       obj.get_a(o) == "Hello",
-      obj.get_a(o_2) == "World",
+      obj.get_a(o2) == "World",
     },
     and {
-      !obj.get_y(o_3),
+      !obj.get_y(o3),
       obj.get_y(o),
     },
   }
