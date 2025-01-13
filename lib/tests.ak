@@ -4,7 +4,10 @@ use custom_types.{
   Backer, Datum, Fieldless, NamedFields, NamelessFields, North, Single,
   SingleConstructor, South, Unit,
 }
-use opaque_types.{Class} as obj
+use opaque_types.{
+  Class, get_obj_a, get_obj_i, get_obj_y, new_constr, new_obj, new_type,
+  set_obj_a, set_obj_i, set_obj_y,
+}
 
 // ## Single Constructor
 
@@ -85,6 +88,7 @@ test datum() {
   let datum =
     Datum {
       campaign: "My Campaign",
+      metadata: "metadata",
       deadline: 1928374650000,
       goal: 3_000_000_000,
       creator_pkh: VerificationKey(
@@ -98,6 +102,7 @@ test datum() {
   let datum_nameless =
     Datum(
       "My Campaign",
+      "metadata",
       1928374650000,
       3_000_000_000,
       VerificationKey(
@@ -150,21 +155,31 @@ test destructuring() {
 // ## Opaque Types
 
 test opaque_types() {
-  let o: Class = obj.new(1, "Hello", True)
+  let o: Class = new_obj(1, "Hello", True)
 
-  let o1 = obj.set_i(o, 2)
-  let o2 = obj.set_a(o, "World")
-  let o3 = obj.set_y(o, False)
+  let o1 = set_obj_i(o, 2)
+  let o2 = set_obj_a(o, "World")
+  let o3 = set_obj_y(o, False)
 
   and {
-    obj.get_i(o1) == obj.get_i(o) + 1,
+    get_obj_i(o1) == get_obj_i(o) + 1,
     and {
-      obj.get_a(o) == "Hello",
-      obj.get_a(o2) == "World",
+      get_obj_a(o) == "Hello",
+      get_obj_a(o2) == "World",
     },
     and {
-      !obj.get_y(o3),
-      obj.get_y(o),
+      !get_obj_y(o3),
+      get_obj_y(o),
     },
   }
+}
+
+test newtype() {
+  // 43
+  trace new_type(43)
+
+  // 121([_ 43])
+  trace new_constr(43)
+
+  True
 }

@@ -36,14 +36,17 @@ pub type Enum {
 
 // ## Complex Types
 
+/// Fields type can be another custom type
 pub type Backer {
   owner_pkh: Credential,
   owner_skh: Credential,
   amount: Lovelace,
 }
 
-pub type Datum {
+/// Generics: https://aiken-lang.org/language-tour/custom-types#generics
+pub type Datum<a> {
   campaign: ByteArray,
+  metadata: a,
   deadline: Int,
   goal: Lovelace,
   creator_pkh: Credential,
